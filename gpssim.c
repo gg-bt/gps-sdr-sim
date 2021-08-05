@@ -2013,12 +2013,15 @@ int main(int argc, char *argv[])
 			// within a longer time interval given by two hours before the minimum ephemeris time and two hours after the
 			// maximum ephemeris time. In the original implementation, the check was that the current receiver local time
 			// is within the miminum time of ephemeris and the maximum time of ephemeris
-			if (fabs(subGpsTime(g0, gmin))>2*SECONDS_IN_HOUR && fabs(subGpsTime(gmax, g0))>2*SECONDS_IN_HOUR)
+			if ( subGpsTime(g0, gmin) < -2*SECONDS_IN_HOUR || subGpsTime(gmax, g0) < -2*SECONDS_IN_HOUR )
 			{
 				fprintf(stderr, "ERROR: Invalid start time.\n");
 				fprintf(stderr, "tmin = %4d/%02d/%02d,%02d:%02d:%02.0f (%d:%.0f)\n", 
 					tmin.y, tmin.m, tmin.d, tmin.hh, tmin.mm, tmin.sec,
 					gmin.week, gmin.sec);
+				fprintf(stderr, "Start time = %4d/%02d/%02d,%02d:%02d:%02.0f (%d:%.0f)\n",
+					t0.y, t0.m, t0.d, t0.hh, t0.mm, t0.sec,
+					g0.week, g0.sec);
 				fprintf(stderr, "tmax = %4d/%02d/%02d,%02d:%02d:%02.0f (%d:%.0f)\n", 
 					tmax.y, tmax.m, tmax.d, tmax.hh, tmax.mm, tmax.sec,
 					gmax.week, gmax.sec);
